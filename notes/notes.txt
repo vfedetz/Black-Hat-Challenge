@@ -1,0 +1,72 @@
+Hours spent:
+First shot at Vig breaker 2/13: 2.5 hrs
+IDing the ciphers and working on Vig breaker 2/19: 3 hrs
+2/27 5:30 - 9:40: 4.5 hrs 
+    Had to code a way to collect arrays of all possible caesar keys within a certain tolerances for each key length
+    then I had take those and iterate out all into all possible key combinations
+    I then realized that my isEngligh checker was the bottleneck for the code to run in a reasonable time
+    had to try and speed that up by not searching the  dictionary of words, instead searched top 1000 words
+    had to play with caesar tolerances in order to benchmark the run time to be something reasonable
+    program hit cloud9 memory limit due to the size of the all possible key combinations array, increased to 1GB (max for free ver)
+    modified english checker to include top 1k quad-grams and improve the accuracy
+    after much frustration, just let it run overnight and came back with the answer! also confirmed Secret 2 and not 4 was the Vin Cipher
+    Note that I didnt pipe output to a file, so the top part of my terminal was lost, also the program died at some point due to OOM
+    so it is very fortunate that the answer was within the remaining part of the terminal AND before the program had OOM
+    (17, 9, 8, 17, 15, 6, 3, 7, 2, 24, 23, 17, 15)
+    Delphi Works of Andrew Lang 
+
+1) Substitution (secret3)
+    should not have normal letter frequencies
+    letter frequencies squared should sum to .065
+2) Vigenere
+    will have a key length between 10 and 20 that has SFS = .065
+3) Play Fair
+    Will have no J's
+4) Column Transposition (secret5)
+    should have normal letter frequencies
+    letter frequencies  squared should sum to .065
+5) Hill 2x2
+    Last one by process of elimination
+    
+    
+The first step was to determine which cipher cooresponded to which blackhat challenge.
+
+findWhichCipher.py
+
+-----
+Analyzing:  secret1
+Diff from Norm Freq:  0.714505839449
+Sum Freq Squared:  0.0510506283501
+Number of J's:  0
+-----
+Analyzing:  secret2
+Diff from Norm Freq:  0.820860445839
+Sum Freq Squared:  0.0419611111111
+Number of J's:  21
+-----
+Analyzing:  secret3
+Diff from Norm Freq:  0.695294925114
+Sum Freq Squared:  0.0666283542879
+Number of J's:  7
+-----
+Analyzing:  secret4
+Diff from Norm Freq:  0.688261200132
+Sum Freq Squared:  0.0415282964665
+Number of J's:  20
+-----
+Analyzing:  secret5
+Diff from Norm Freq:  0.155056161603
+Sum Freq Squared:  0.0696196117292
+Number of J's:  2
+
+
+Secret5 is only 15% off from normal english letter frequencies,
+AND the sum of the frequencies squared is .069 which is very close to the .065 of normal english.
+It is probably the column transposition cipher.
+
+Secret3 has a sum of its frequencies squared at .066, but does not have normal letter frequencies.
+Therefore, it is probably the substitution cipher.
+
+Secret1 has no J's and therefore is the Play Fair Cipher
+
+Either Secret2 or secret4 is the vigenere and hill 2x2 cipher.
